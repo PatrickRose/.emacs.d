@@ -1,4 +1,5 @@
 (add-hook 'after-init-hook 'ido-mode)
+
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -123,3 +124,6 @@
   (define-key objc-mode-map (kbd "C-c t") 'objc-jump-between-header-source))
 
 (add-hook 'objc-mode-hook 'objc-mode-customizations)
+
+(load-file "~/.emacs.d/abc-mode/abc-mode.el")
+(add-to-list 'auto-mode-alist '("\\.abc\\'" . abc-mode))
