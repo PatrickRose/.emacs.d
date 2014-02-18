@@ -1,0 +1,3 @@
+[submodule "abc-mode"]
+	path = abc-mode
+	url = https://github.com/mkjunker/abc-mode.git
