@@ -1,15 +1,16 @@
 (add-hook 'after-init-hook 'ido-mode)
 
-(require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
-(package-initialize)
+;; (require 'package)
+;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+;;                          ("marmalade" . "http://marmalade-repo.org/packages/")
+;;                          ("melpa" . "http://melpa.milkbox.net/packages/")))
+;; (package-initialize)
 
-(require 'haskell-mode-autoloads)
-(add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
+;; (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
 ;; Smex
+
+(add-to-list 'load-path "~/.emacs.d/smex")
 
 (require 'smex)
 
@@ -77,10 +78,16 @@
       '(("php" . "\\.phtml\\'") ("blade" . "\\.blade\\."))
       )
 
+;; Magit
+
+(add-to-list 'load-path "~/.emacs.d/magit")
+
 (require 'magit)
 (global-set-key (kbd "C-x M-g") 'magit-status)
 
 ;; Markdown Mode
+
+(add-to-list 'load-path "~/.emacs.d/markdown-mode")
 
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
@@ -124,6 +131,10 @@
 (load-file "~/.emacs.d/abc-mode/abc-mode.el")
 (add-to-list 'auto-mode-alist '("\\.abc\\'" . abc-mode))
 
+;; AUCTeX
+
+(add-to-list 'load-path "~/.emacs.d/auctex")
+
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
@@ -134,3 +145,8 @@
 
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
+
+;; Rinari
+
+(add-to-list 'load-path "~/.emacs.d/rinari")
+
