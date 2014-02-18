@@ -71,17 +71,11 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
+
 (setq web-mode-engines-alist
       '(("php" . "\\.phtml\\'") ("blade" . "\\.blade\\."))
       )
-
-(defun web-mode-hook ()
-  "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 4)
-  (setq web-mode-code-indent-offset 4)
-  (setq web-mode-css-indent-offset 4)
-  )
-(add-hook 'web-mode-hook 'web-mode-hook)
 
 (require 'magit)
 (global-set-key (kbd "C-x M-g") 'magit-status)
