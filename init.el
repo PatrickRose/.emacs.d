@@ -1,4 +1,7 @@
+;; (load-file "~/.emacs.d/package.el")
+
 (add-hook 'after-init-hook 'ido-mode)
+(require 'package)			
 
 ;; (require 'package)
 ;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
