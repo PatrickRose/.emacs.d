@@ -1,15 +1,15 @@
 ;; (load-file "~/.emacs.d/package.el")
 
 (add-hook 'after-init-hook 'ido-mode)
-(require 'package)			
+;;(require 'package)			
 
-;; (require 'package)
-;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-;;                          ("marmalade" . "http://marmalade-repo.org/packages/")
-;;                          ("melpa" . "http://melpa.milkbox.net/packages/")))
-;; (package-initialize)
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(package-initialize)
 
-;; (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
+(add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
 ;; Smex
 
@@ -136,8 +136,6 @@
 (add-to-list 'auto-mode-alist '("\\.abc\\'" . abc-mode))
 
 ;; AUCTeX
-
-(add-to-list 'load-path "~/.emacs.d/auctex")
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)

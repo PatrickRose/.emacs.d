@@ -4,9 +4,6 @@
 [submodule "web-mode"]
 	path = web-mode
 	url = https://github.com/fxbois/web-mode.git
-[submodule "auctex"]
-	path = auctex
-	url = https://github.com/jwiegley/auctex.git
 [submodule "rinari"]
 	path = rinari
 	url = https://github.com/eschulte/rinari.git
