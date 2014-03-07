@@ -152,3 +152,25 @@
 
 (add-to-list 'load-path "~/.emacs.d/rinari")
 
+;; Ampl
+
+;;
+;; Ampl mode (GNU Math Prog too)
+;;
+
+(load-file "~/.emacs.d/ampl-mode.el")
+
+(setq auto-mode-alist
+      (cons '("\\.mod$" . ampl-mode) auto-mode-alist))
+(setq auto-mode-alist
+      (cons '("\\.dat$" . ampl-mode) auto-mode-alist))
+(setq auto-mode-alist
+      (cons '("\\.ampl$" . ampl-mode) auto-mode-alist))
+(setq interpreter-mode-alist
+      (cons '("ampl" . ampl-mode)
+            interpreter-mode-alist))
+
+(load "ampl-mode")
+
+;; Enable syntax coloring
+(add-hook 'ampl-mode-hook 'turn-on-font-lock)
