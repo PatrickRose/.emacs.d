@@ -19,3 +19,6 @@
 [submodule "git-modes"]
 	path = git-modes
 	url = https://github.com/magit/git-modes.git
+[submodule "csharp-mode"]
+	path = csharp-mode
+	url = https://github.com/josteink/csharp-mode

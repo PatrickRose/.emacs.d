@@ -165,3 +165,7 @@
 
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 (setq magit-last-seen-setup-instructions "1.4.0")
+
+;; CSharp Mode
+(add-to-list 'load-path "~/.emacs.d/csharp-mode")
+(require 'csharp-mode)
