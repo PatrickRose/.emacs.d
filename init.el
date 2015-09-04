@@ -1,5 +1,7 @@
 ;; (load-file "~/.emacs.d/package.el")
 
+(load-file "~/.emacs.d/keywiz.el")
+
 (add-hook 'after-init-hook 'ido-mode)
 ;;(require 'package)			
 
@@ -162,3 +164,4 @@
       (cons '("\\.ly$" . LilyPond-mode) auto-mode-alist))
 
 (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
+(setq magit-last-seen-setup-instructions "1.4.0")
