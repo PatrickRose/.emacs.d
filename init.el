@@ -169,3 +169,8 @@
 ;; CSharp Mode
 (add-to-list 'load-path "~/.emacs.d/csharp-mode")
 (require 'csharp-mode)
+
+;; Sass
+(add-to-list 'load-path "~/.emacs.d/scss-mode")
+(autoload 'scss-mode "scss-mode")
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))

@@ -22,3 +22,6 @@
 [submodule "csharp-mode"]
 	path = csharp-mode
 	url = https://github.com/josteink/csharp-mode
+[submodule "scss-mode"]
+	path = scss-mode
+	url = https://github.com/antonj/scss-mode.git
