@@ -25,3 +25,6 @@
 [submodule "scss-mode"]
 	path = scss-mode
 	url = https://github.com/antonj/scss-mode.git
+[submodule "less-css-mode"]
+	path = less-css-mode
+	url = https://github.com/purcell/less-css-mode.git

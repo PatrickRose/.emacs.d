@@ -174,3 +174,7 @@
 (add-to-list 'load-path "~/.emacs.d/scss-mode")
 (autoload 'scss-mode "scss-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+
+;; Less
+(load-file "~/.emacs.d/less-css-mode/less-css-mode.el")
+(add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
