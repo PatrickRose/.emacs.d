@@ -184,3 +184,5 @@
 ;; Turn off the stupid beeping
 (setq ring-bell-function 'ignore)
 
+(setq web-mode-markup-indent-offset 4)
+(setq web-mode-code-indent-offset 4)
