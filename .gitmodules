@@ -28,3 +28,6 @@
 [submodule "less-css-mode"]
 	path = less-css-mode
 	url = https://github.com/purcell/less-css-mode.git
+[submodule "company-mode"]
+	path = company-mode
+	url = https://github.com/company-mode/company-mode.git

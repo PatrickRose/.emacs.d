@@ -184,12 +184,17 @@
 ;; Turn off the stupid beeping
 (setq ring-bell-function 'ignore)
 
-
-(setq web-mode-markup-indent-offset 4)
-(setq web-mode-code-indent-offset 4)
-
 (fset 'delete-buffer-contents
    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([24 104 134217848 100 101 108 101 tab 114 tab 103 tab return] 0 "%d")) arg)))
 
 (global-set-key (kbd "C-x C-k C-b") 'delete-buffer-contents)
 
+(setq-default web-mode-markup-indent-offset 4)
+(setq-default web-mode-code-indent-offset 4)
+(setq-default web-mode-css-indent-offset 4)
+(setq-default web-mode-attr-indent-offset 4)
+(setq-default indent-tabs-mode nil)
+
+;; Company mode
+(add-to-list 'load-path "~/.emacs.d/company-mode")
+(load-file "~/.emacs.d/company-mode/company.el")
