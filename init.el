@@ -1,9 +1,9 @@
-;; (load-file "~/.emacs.d/package.el")
+(load-file "~/.emacs.d/package.el")
 
 (load-file "~/.emacs.d/keywiz.el")
 
 (add-hook 'after-init-hook 'ido-mode)
-;;(require 'package)			
+(require 'package)			
 
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -15,32 +15,32 @@
 
 ;; Smex
 
-(add-to-list 'load-path "~/.emacs.d/smex")
+;; (add-to-list 'load-path "~/.emacs.d/smex")
 
-(require 'smex)
+;; (require 'smex)
 
-(global-set-key [(meta x)] (lambda ()
-                             (interactive)
-                             (or (boundp 'smex-cache)
-                                 (smex-initialize))
-                             (global-set-key [(meta x)] 'smex)
-                             (smex)))
+;; (global-set-key [(meta x)] (lambda ()
+;;                              (interactive)
+;;                              (or (boundp 'smex-cache)
+;;                                  (smex-initialize))
+;;                              (global-set-key [(meta x)] 'smex)
+;;                              (smex)))
 
-(global-set-key [(shift meta x)] (lambda ()
-                                   (interactive)
-                                   (or (boundp 'smex-cache)
-                                       (smex-initialize))
-                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
-                                   (smex-major-mode-commands)))
+;; (global-set-key [(shift meta x)] (lambda ()
+;;                                    (interactive)
+;;                                    (or (boundp 'smex-cache)
+;;                                        (smex-initialize))
+;;                                    (global-set-key [(shift meta x)] 'smex-major-mode-commands)
+;;                                    (smex-major-mode-commands)))
 
-(defadvice smex (around space-inserts-hyphen activate compile)
-  (let ((ido-cannot-complete-command
-         `(lambda ()
-            (interactive)
-            (if (string= " " (this-command-keys))
-                (insert ?-)
-              (funcall ,ido-cannot-complete-command)))))
-    ad-do-it))
+;; (defadvice smex (around space-inserts-hyphen activate compile)
+;;   (let ((ido-cannot-complete-command
+;;          `(lambda ()
+;;             (interactive)
+;;             (if (string= " " (this-command-keys))
+;;                 (insert ?-)
+;;               (funcall ,ido-cannot-complete-command)))))
+;;     ad-do-it))
 
 
 (defun iwb ()
@@ -50,7 +50,7 @@
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
 
-(global-set-key [C-tab] 'iwb)
+(global-set-key (kbd "C-TAB") 'iwb)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -87,11 +87,11 @@
 
 ;; Magit
 
-(add-to-list 'load-path "~/.emacs.d/git-modes")
-(add-to-list 'load-path "~/.emacs.d/magit")
+;; (add-to-list 'load-path "~/.emacs.d/git-modes")
+;; (add-to-list 'load-path "~/.emacs.d/magit")
 
-(require 'magit)
-(global-set-key (kbd "C-x M-g") 'magit-status)
+;; (require 'magit)
+;; (global-set-key (kbd "C-x M-g") 'magit-status)
 
 ;; Markdown Mode
 
@@ -184,5 +184,12 @@
 ;; Turn off the stupid beeping
 (setq ring-bell-function 'ignore)
 
+
 (setq web-mode-markup-indent-offset 4)
 (setq web-mode-code-indent-offset 4)
+
+(fset 'delete-buffer-contents
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([24 104 134217848 100 101 108 101 tab 114 tab 103 tab return] 0 "%d")) arg)))
+
+(global-set-key (kbd "C-x C-k C-b") 'delete-buffer-contents)
+
