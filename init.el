@@ -1,47 +1,49 @@
-(load-file "~/.emacs.d/package.el")
-
-(load-file "~/.emacs.d/keywiz.el")
+;; (load-file "~/.emacs.d/package.el")
 
 (add-hook 'after-init-hook 'ido-mode)
 (require 'package)			
-
-(require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+			 ("melpa-stable" . "http://stable.melpa.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
 (package-initialize)
-
+(package-refresh-contents)
 (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
+(setq prelude-packages
+      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit
+)
+  )
+
+(defun install-package-if-not-installed (p)
+  (print p)
+  (if (not (package-installed-p p)) (package-install p))
+)
+
+(dolist (p prelude-packages) (install-package-if-not-installed p))
+
 ;; Smex
+(global-set-key [(meta x)] (lambda ()
+                             (interactive)
+                             (or (boundp 'smex-cache)
+                                 (smex-initialize))
+                             (global-set-key [(meta x)] 'smex)
+                             (smex)))
 
-;; (add-to-list 'load-path "~/.emacs.d/smex")
+(global-set-key [(shift meta x)] (lambda ()
+                                   (interactive)
+                                   (or (boundp 'smex-cache)
+                                       (smex-initialize))
+                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
+                                   (smex-major-mode-commands)))
 
-;; (require 'smex)
-
-;; (global-set-key [(meta x)] (lambda ()
-;;                              (interactive)
-;;                              (or (boundp 'smex-cache)
-;;                                  (smex-initialize))
-;;                              (global-set-key [(meta x)] 'smex)
-;;                              (smex)))
-
-;; (global-set-key [(shift meta x)] (lambda ()
-;;                                    (interactive)
-;;                                    (or (boundp 'smex-cache)
-;;                                        (smex-initialize))
-;;                                    (global-set-key [(shift meta x)] 'smex-major-mode-commands)
-;;                                    (smex-major-mode-commands)))
-
-;; (defadvice smex (around space-inserts-hyphen activate compile)
-;;   (let ((ido-cannot-complete-command
-;;          `(lambda ()
-;;             (interactive)
-;;             (if (string= " " (this-command-keys))
-;;                 (insert ?-)
-;;               (funcall ,ido-cannot-complete-command)))))
-;;     ad-do-it))
-
+(defadvice smex (around space-inserts-hyphen activate compile)
+  (let ((ido-cannot-complete-command
+         `(lambda ()
+            (interactive)
+            (if (string= " " (this-command-keys))
+                (insert ?-)
+              (funcall ,ido-cannot-complete-command)))))
+    ad-do-it))
 
 (defun iwb ()
   "indent whole buffer"
@@ -69,8 +71,7 @@
  ;; If there is more than one, they won't work right.
  )
 
-(load-file "~/.emacs.d/web-mode/web-mode.el")
-(require 'web-mode)
+;; Web mode
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
@@ -85,18 +86,15 @@
       '(("php" . "\\.phtml\\'") ("blade" . "\\.blade\\."))
       )
 
+(setq-default web-mode-markup-indent-offset 4)
+(setq-default web-mode-code-indent-offset 4)
+(setq-default web-mode-css-indent-offset 4)
+(setq-default web-mode-attr-indent-offset 4)
+
 ;; Magit
-
-;; (add-to-list 'load-path "~/.emacs.d/git-modes")
-;; (add-to-list 'load-path "~/.emacs.d/magit")
-
-;; (require 'magit)
-;; (global-set-key (kbd "C-x M-g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-status)
 
 ;; Markdown Mode
-
-(add-to-list 'load-path "~/.emacs.d/markdown-mode")
-
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
@@ -136,11 +134,9 @@
 
 (add-hook 'objc-mode-hook 'objc-mode-customizations)
 
-(load-file "~/.emacs.d/abc-mode/abc-mode.el")
 (add-to-list 'auto-mode-alist '("\\.abc\\'" . abc-mode))
 
 ;; AUCTeX
-
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
@@ -152,12 +148,7 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 
-;; Rinari
-
-(add-to-list 'load-path "~/.emacs.d/rinari")
-
 ;; Lilypond
-
 (load-file "~/.emacs.d/lilypond-init.el")
 (autoload 'LilyPond-mode "lilypond-mode")
 (setq auto-mode-alist
@@ -167,16 +158,11 @@
 (setq magit-last-seen-setup-instructions "1.4.0")
 
 ;; CSharp Mode
-(add-to-list 'load-path "~/.emacs.d/csharp-mode")
-(require 'csharp-mode)
 
 ;; Sass
-(add-to-list 'load-path "~/.emacs.d/scss-mode")
-(autoload 'scss-mode "scss-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 
 ;; Less
-(load-file "~/.emacs.d/less-css-mode/less-css-mode.el")
 (add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
 
 (load-theme 'earthsong)
@@ -189,12 +175,7 @@
 
 (global-set-key (kbd "C-x C-k C-b") 'delete-buffer-contents)
 
-(setq-default web-mode-markup-indent-offset 4)
-(setq-default web-mode-code-indent-offset 4)
-(setq-default web-mode-css-indent-offset 4)
-(setq-default web-mode-attr-indent-offset 4)
 (setq-default indent-tabs-mode nil)
 
-;; Company mode
-(add-to-list 'load-path "~/.emacs.d/company-mode")
-(load-file "~/.emacs.d/company-mode/company.el")
+;; Rust mode
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
