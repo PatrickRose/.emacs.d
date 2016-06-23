@@ -15,32 +15,32 @@
 
 ;; Smex
 
-;; (add-to-list 'load-path "~/.emacs.d/smex")
+(add-to-list 'load-path "~/.emacs.d/smex")
 
-;; (require 'smex)
+(require 'smex)
 
-;; (global-set-key [(meta x)] (lambda ()
-;;                              (interactive)
-;;                              (or (boundp 'smex-cache)
-;;                                  (smex-initialize))
-;;                              (global-set-key [(meta x)] 'smex)
-;;                              (smex)))
+(global-set-key [(meta x)] (lambda ()
+                             (interactive)
+                             (or (boundp 'smex-cache)
+                                 (smex-initialize))
+                             (global-set-key [(meta x)] 'smex)
+                             (smex)))
 
-;; (global-set-key [(shift meta x)] (lambda ()
-;;                                    (interactive)
-;;                                    (or (boundp 'smex-cache)
-;;                                        (smex-initialize))
-;;                                    (global-set-key [(shift meta x)] 'smex-major-mode-commands)
-;;                                    (smex-major-mode-commands)))
+(global-set-key [(shift meta x)] (lambda ()
+                                   (interactive)
+                                   (or (boundp 'smex-cache)
+                                       (smex-initialize))
+                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
+                                   (smex-major-mode-commands)))
 
-;; (defadvice smex (around space-inserts-hyphen activate compile)
-;;   (let ((ido-cannot-complete-command
-;;          `(lambda ()
-;;             (interactive)
-;;             (if (string= " " (this-command-keys))
-;;                 (insert ?-)
-;;               (funcall ,ido-cannot-complete-command)))))
-;;     ad-do-it))
+(defadvice smex (around space-inserts-hyphen activate compile)
+  (let ((ido-cannot-complete-command
+         `(lambda ()
+            (interactive)
+            (if (string= " " (this-command-keys))
+                (insert ?-)
+              (funcall ,ido-cannot-complete-command)))))
+    ad-do-it))
 
 
 (defun iwb ()
@@ -80,18 +80,18 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
-
+(add-to-list 'auto-mode-alist '("\\.html\.*\\'" . web-mode))
 (setq web-mode-engines-alist
-      '(("php" . "\\.phtml\\'") ("blade" . "\\.blade\\."))
+      '(("php" . "\\.phtml\\'") ("blade" . "\\.blade\\.") ("php" . "\\.html\.*\\'"))
       )
 
 ;; Magit
 
-;; (add-to-list 'load-path "~/.emacs.d/git-modes")
-;; (add-to-list 'load-path "~/.emacs.d/magit")
+(add-to-list 'load-path "~/.emacs.d/git-modes")
+(add-to-list 'load-path "~/.emacs.d/magit")
 
-;; (require 'magit)
-;; (global-set-key (kbd "C-x M-g") 'magit-status)
+(require 'magit)
+(global-set-key (kbd "C-x M-g") 'magit-status)
 
 ;; Markdown Mode
 
@@ -179,7 +179,7 @@
 (load-file "~/.emacs.d/less-css-mode/less-css-mode.el")
 (add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
 
-(load-theme 'earthsong)
+; (load-theme 'earthsong)
 
 ;; Turn off the stupid beeping
 (setq ring-bell-function 'ignore)
@@ -193,3 +193,7 @@
 
 (global-set-key (kbd "C-x C-k C-b") 'delete-buffer-contents)
 
+;; Po mode
+(load-file "~/.emacs.d/start-po.el")
+(load-file "~/.emacs.d/po-mode.el")
+(load-file "~/.emacs.d/po-compat.el")
