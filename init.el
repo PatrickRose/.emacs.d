@@ -1,24 +1,27 @@
-(load-file "~/.emacs.d/package.el")
-
-(load-file "~/.emacs.d/keywiz.el")
+;; (load-file "~/.emacs.d/package.el")
 
 (add-hook 'after-init-hook 'ido-mode)
 (require 'package)			
-
-(require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+			 ("melpa-stable" . "http://stable.melpa.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
 (package-initialize)
-
+(package-refresh-contents)
 (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
+(setq prelude-packages
+      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit
+)
+  )
+
+(defun install-package-if-not-installed (p)
+  (print p)
+  (if (not (package-installed-p p)) (package-install p))
+)
+
+(dolist (p prelude-packages) (install-package-if-not-installed p))
+
 ;; Smex
-
-(add-to-list 'load-path "~/.emacs.d/smex")
-
-(require 'smex)
-
 (global-set-key [(meta x)] (lambda ()
                              (interactive)
                              (or (boundp 'smex-cache)
@@ -41,7 +44,6 @@
                 (insert ?-)
               (funcall ,ido-cannot-complete-command)))))
     ad-do-it))
-
 
 (defun iwb ()
   "indent whole buffer"
@@ -69,8 +71,7 @@
  ;; If there is more than one, they won't work right.
  )
 
-(load-file "~/.emacs.d/web-mode/web-mode.el")
-(require 'web-mode)
+;; Web mode
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
@@ -86,17 +87,9 @@
       )
 
 ;; Magit
-
-(add-to-list 'load-path "~/.emacs.d/git-modes")
-(add-to-list 'load-path "~/.emacs.d/magit")
-
-(require 'magit)
 (global-set-key (kbd "C-x M-g") 'magit-status)
 
 ;; Markdown Mode
-
-(add-to-list 'load-path "~/.emacs.d/markdown-mode")
-
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
@@ -136,11 +129,9 @@
 
 (add-hook 'objc-mode-hook 'objc-mode-customizations)
 
-(load-file "~/.emacs.d/abc-mode/abc-mode.el")
 (add-to-list 'auto-mode-alist '("\\.abc\\'" . abc-mode))
 
 ;; AUCTeX
-
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
@@ -152,12 +143,7 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 
-;; Rinari
-
-(add-to-list 'load-path "~/.emacs.d/rinari")
-
 ;; Lilypond
-
 (load-file "~/.emacs.d/lilypond-init.el")
 (autoload 'LilyPond-mode "lilypond-mode")
 (setq auto-mode-alist
@@ -167,26 +153,17 @@
 (setq magit-last-seen-setup-instructions "1.4.0")
 
 ;; CSharp Mode
-(add-to-list 'load-path "~/.emacs.d/csharp-mode")
-(require 'csharp-mode)
 
 ;; Sass
-(add-to-list 'load-path "~/.emacs.d/scss-mode")
-(autoload 'scss-mode "scss-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 
 ;; Less
-(load-file "~/.emacs.d/less-css-mode/less-css-mode.el")
 (add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
 
 ; (load-theme 'earthsong)
 
 ;; Turn off the stupid beeping
 (setq ring-bell-function 'ignore)
-
-
-(setq web-mode-markup-indent-offset 4)
-(setq web-mode-code-indent-offset 4)
 
 (fset 'delete-buffer-contents
    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([24 104 134217848 100 101 108 101 tab 114 tab 103 tab return] 0 "%d")) arg)))
@@ -197,3 +174,9 @@
 (load-file "~/.emacs.d/start-po.el")
 (load-file "~/.emacs.d/po-mode.el")
 (load-file "~/.emacs.d/po-compat.el")
+
+;; Rust mode
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
+(setq-default indent-tabs-mode nil)
+
