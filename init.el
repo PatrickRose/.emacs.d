@@ -15,7 +15,7 @@
  ;; If there is more than one, they won't work right.
  )
 
-(load-theme 'earthsong)
+(when (display-graphic-p) (load-theme 'earthsong))
 
 ;; (load-file "~/.emacs.d/package.el")
 
