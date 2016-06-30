@@ -1,3 +1,22 @@
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(TeX-PDF-mode t)
+ '(custom-safe-themes
+   (quote
+    ("59f42f7028e0cf1d8d6a7bc172dc37da64e4cd11fd29cf03c6ca950451cc2a00" "5c0e769024ee7f144c288e8397f1f0325e3aa78c0f60268675165a10d4dad8f8" "6335eec7e785c6164a1cf63a34613e3b640a7db3d06b37a1cd145e24d054e7bc" "a874b8ea34cc007dd3f91f1133f9c072e2d402c08cce2ec79dab50846d312910" "490016b5303e2c1efa25479652d19a2b0c954c0062028a467eeab7a90bad8cfc" "dbd0b6ed94c4c91c24cb55c283f23ccb17a38bd4e3f56be9ea68c1dd5d050558" "d3a3e2e7b4c7fa92ea02926f2d6b92de820a63710a3a392c9cebde8a1f0a277b" "1546189f0f232f48d32cd9baac67baa4fe94bfc31b53a142b426ce5b0d1c0d9b" "bf53e00050ceb46f04b08d3bb47905e32d9dc5680c004cd44f1e033be8e4b3b5" default)))
+ '(inhibit-startup-screen t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(load-theme 'earthsong)
+
 ;; (load-file "~/.emacs.d/package.el")
 
 (add-hook 'after-init-hook 'ido-mode)
@@ -10,16 +29,11 @@
 (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
 (setq prelude-packages
-      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit
+      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit auto-complete ac-php ac-php-core
 )
   )
 
-(defun install-package-if-not-installed (p)
-  (print p)
-  (if (not (package-installed-p p)) (package-install p))
-)
-
-(dolist (p prelude-packages) (install-package-if-not-installed p))
+(dolist (p prelude-packages) (if (not (package-installed-p p)) (package-install p)))
 
 ;; Smex
 (global-set-key [(meta x)] (lambda ()
@@ -54,24 +68,21 @@
 
 (global-set-key (kbd "C-TAB") 'iwb)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(TeX-PDF-mode t)
- '(custom-safe-themes
-   (quote
-    ("59f42f7028e0cf1d8d6a7bc172dc37da64e4cd11fd29cf03c6ca950451cc2a00" "5c0e769024ee7f144c288e8397f1f0325e3aa78c0f60268675165a10d4dad8f8" "6335eec7e785c6164a1cf63a34613e3b640a7db3d06b37a1cd145e24d054e7bc" "a874b8ea34cc007dd3f91f1133f9c072e2d402c08cce2ec79dab50846d312910" "490016b5303e2c1efa25479652d19a2b0c954c0062028a467eeab7a90bad8cfc" "dbd0b6ed94c4c91c24cb55c283f23ccb17a38bd4e3f56be9ea68c1dd5d050558" "d3a3e2e7b4c7fa92ea02926f2d6b92de820a63710a3a392c9cebde8a1f0a277b" "1546189f0f232f48d32cd9baac67baa4fe94bfc31b53a142b426ce5b0d1c0d9b" "bf53e00050ceb46f04b08d3bb47905e32d9dc5680c004cd44f1e033be8e4b3b5" default)))
- '(inhibit-startup-screen t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; Auto completion
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(ac-config-default)
 
 ;; Web mode
+(add-hook 'web-mode-hook  '(lpambda ()
+                             (auto-complete-mode t)
+                             (require 'ac-php)
+                             (setq ac-sources '(ac-source-php))
+                             (yas-global-mode 1)
+                             (local-set-key (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
+                             (local-set-key (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
+                            ))
+
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
@@ -159,8 +170,6 @@
 
 ;; Less
 (add-to-list 'auto-mode-alist '("\\.less\\'" . less-css-mode))
-
-; (load-theme 'earthsong)
 
 ;; Turn off the stupid beeping
 (setq ring-bell-function 'ignore)
