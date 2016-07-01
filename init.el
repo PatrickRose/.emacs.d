@@ -74,7 +74,7 @@
 (ac-config-default)
 
 ;; Web mode
-(add-hook 'web-mode-hook  '(lpambda ()
+(add-hook 'web-mode-hook  '(lambda ()
                              (auto-complete-mode t)
                              (require 'ac-php)
                              (setq ac-sources '(ac-source-php))
