@@ -7,6 +7,7 @@
  '(custom-safe-themes
    (quote
     ("59f42f7028e0cf1d8d6a7bc172dc37da64e4cd11fd29cf03c6ca950451cc2a00" "5c0e769024ee7f144c288e8397f1f0325e3aa78c0f60268675165a10d4dad8f8" "6335eec7e785c6164a1cf63a34613e3b640a7db3d06b37a1cd145e24d054e7bc" "a874b8ea34cc007dd3f91f1133f9c072e2d402c08cce2ec79dab50846d312910" "490016b5303e2c1efa25479652d19a2b0c954c0062028a467eeab7a90bad8cfc" "dbd0b6ed94c4c91c24cb55c283f23ccb17a38bd4e3f56be9ea68c1dd5d050558" "d3a3e2e7b4c7fa92ea02926f2d6b92de820a63710a3a392c9cebde8a1f0a277b" "1546189f0f232f48d32cd9baac67baa4fe94bfc31b53a142b426ce5b0d1c0d9b" "bf53e00050ceb46f04b08d3bb47905e32d9dc5680c004cd44f1e033be8e4b3b5" default)))
+ '(git-commit-fill-column 70)
  '(inhibit-startup-screen t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -188,4 +189,3 @@
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
 (setq-default indent-tabs-mode nil)
-
