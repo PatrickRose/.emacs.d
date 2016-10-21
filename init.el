@@ -30,7 +30,7 @@
 (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
 (setq prelude-packages
-      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit auto-complete ac-php ac-php-core
+      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit company-php
 )
   )
 
@@ -69,23 +69,15 @@
 
 (global-set-key (kbd "C-TAB") 'iwb)
 
-;; Auto completion
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-(ac-config-default)
-
 ;; Web mode
 (add-hook 'web-mode-hook  '(lambda ()
-                             (auto-complete-mode t)
-                             (require 'ac-php)
-                             (setq ac-sources '(ac-source-php))
-                             (yas-global-mode 1)
-                             (local-set-key (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
-                             (local-set-key (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
+                             (require 'company-php)
+                             (company-mode t)
+                             (add-to-list 'company-backends 'company-ac-php-backend )))
+(add-to-list 'company-dabbrev-code-modes 'web-mode)
+(add-hook 'web-mode-hook  '(lambda ()
                              (setq indent-tabs-mode t)
-                             (web-mode-use-tabs)
-			     )
-	  )
+                             (web-mode-use-tabs)))
 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
