@@ -82,7 +82,10 @@
                              (yas-global-mode 1)
                              (local-set-key (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
                              (local-set-key (kbd "C-t") 'ac-php-location-stack-back   ) ;go back
-                            ))
+                             (setq indent-tabs-mode t)
+                             (web-mode-use-tabs)
+			     )
+	  )
 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
