@@ -23,18 +23,31 @@
 (add-hook 'after-init-hook 'ido-mode)
 (require 'package)			
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("melpa-stable" . "http://stable.melpa.org/packages/")
+			 ("melpa" . "http://melpa.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")))
-(package-initialize)
-(package-refresh-contents)
+
 (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
 (setq prelude-packages
-      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit company-php
+      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit cargo company-php
 )
-  )
+      )
 
-(dolist (p prelude-packages) (if (not (package-installed-p p)) (package-install p)))
+(package-initialize)
+
+(defun require-package (package)
+  "Install given PACKAGE if it was not installed before."
+  (if (package-installed-p package)
+      t
+    (progn
+      (unless (assoc package package-archive-contents)
+	(package-refresh-contents))
+      (package-install package))))
+
+(dolist 
+    (p prelude-packages)
+  (require-package p)
+  )
 
 ;; Smex
 (global-set-key [(meta x)] (lambda ()
@@ -78,6 +91,8 @@
 (add-hook 'web-mode-hook  '(lambda ()
                              (setq indent-tabs-mode t)
                              (web-mode-use-tabs)))
+                             (add-to-list 'company-backends 'company-ac-php-backend )
+                             )
 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
@@ -182,5 +197,5 @@
 
 ;; Rust mode
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
-
+(add-hook 'rust-mode-hook 'cargo-minor-mode)
 (setq-default indent-tabs-mode nil)
