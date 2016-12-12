@@ -29,7 +29,7 @@
 (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
 (setq prelude-packages
-      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit cargo company-php
+      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit cargo company-php company
 )
       )
 
@@ -82,17 +82,16 @@
 
 (global-set-key (kbd "C-TAB") 'iwb)
 
+(require 'company)
 ;; Web mode
 (add-hook 'web-mode-hook  '(lambda ()
                              (require 'company-php)
                              (company-mode t)
                              (add-to-list 'company-backends 'company-ac-php-backend )))
-(add-to-list 'company-dabbrev-code-modes 'web-mode)
+;; (add-to-list 'company-dabbrev-code-modes 'web-mode)
 (add-hook 'web-mode-hook  '(lambda ()
                              (setq indent-tabs-mode t)
                              (web-mode-use-tabs)))
-                             (add-to-list 'company-backends 'company-ac-php-backend )
-                             )
 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
