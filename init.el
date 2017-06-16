@@ -29,7 +29,7 @@
 (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
 (setq prelude-packages
-      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit cargo company-php company
+      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit cargo company-php company groovy-mode
 )
       )
 
@@ -198,3 +198,8 @@
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 (add-hook 'rust-mode-hook 'cargo-minor-mode)
 (setq-default indent-tabs-mode nil)
+
+;; Groovy
+;; Never write groovy at home, so we should insert tabs in groovy mode
+(add-hook 'groovy-mode-hook  '(lambda ()
+                                (setq indent-tabs-mode t)))
