@@ -21,6 +21,7 @@
 ;; (load-file "~/.emacs.d/package.el")
 
 (add-hook 'after-init-hook 'ido-mode)
+(require 'cl)
 (require 'package)			
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 			 ("melpa" . "http://melpa.org/packages/")
@@ -202,4 +203,11 @@
 ;; Groovy
 ;; Never write groovy at home, so we should insert tabs in groovy mode
 (add-hook 'groovy-mode-hook  '(lambda ()
-                                (setq indent-tabs-mode t)))
+                                (setq indent-tabs-mode t)
+                                ))
+
+(add-to-list 'auto-mode-alist '("\\.groovy\\'" . groovy-mode))
+(add-to-list 'auto-mode-alist '("\\Jenkinsfile\\'" . groovy-mode))
+
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4)
