@@ -118,6 +118,8 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(add-hook 'markdown-mode-hook 'visual-line-mode)
+
 (ispell-change-dictionary "english")
 
 (add-to-list 'magic-mode-alist
