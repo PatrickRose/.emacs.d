@@ -210,6 +210,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.groovy\\'" . groovy-mode))
 (add-to-list 'auto-mode-alist '("\\Jenkinsfile\\'" . groovy-mode))
+(add-to-list 'auto-mode-alist '("\\composer.lock\\'" . js-mode))
+(add-to-list 'auto-mode-alist '("\\bash-fc\\'" . sh-mode))
 
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
