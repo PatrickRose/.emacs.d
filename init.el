@@ -22,16 +22,15 @@
 
 (add-hook 'after-init-hook 'ido-mode)
 (require 'cl)
-(require 'package)			
+(require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "http://melpa.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+                         ("melpa" . "http://melpa.org/packages/")))
 
 (add-to-list 'Info-default-directory-list "~/.emacs.d/elpa")
 
 (setq prelude-packages
-      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit cargo company-php company groovy-mode
-)
+      '(smex web-mode markdown-mode less-css-mode scss-mode csharp-mode rust-mode abc-mode rinari auctex magit cargo company-php company groovy-mode org feature-mode
+             )
       )
 
 (package-initialize)
@@ -42,10 +41,10 @@
       t
     (progn
       (unless (assoc package package-archive-contents)
-	(package-refresh-contents))
+        (package-refresh-contents))
       (package-install package))))
 
-(dolist 
+(dolist
     (p prelude-packages)
   (require-package p)
   )
@@ -125,7 +124,7 @@
 
 (add-to-list 'magic-mode-alist
              `(,(lambda ()
-                  (and (string= (file-name-extension buffer-file-name) "h")
+                  (and (string= (file-name-extension (if buffer-file-name buffer-file-name "test")) "h")
                        (re-search-forward "@\\<interface\\>"
                                           magic-mode-regexp-match-limit t)))
                . objc-mode))
@@ -189,7 +188,7 @@
 (setq ring-bell-function 'ignore)
 
 (fset 'delete-buffer-contents
-   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([24 104 134217848 100 101 108 101 tab 114 tab 103 tab return] 0 "%d")) arg)))
+      (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([24 104 134217848 100 101 108 101 tab 114 tab 103 tab return] 0 "%d")) arg)))
 
 (global-set-key (kbd "C-x C-k C-b") 'delete-buffer-contents)
 
@@ -216,3 +215,134 @@
 
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
+
+(defun add-brief-helper ()
+  (interactive)
+  (insert "1. Background
+ - What the system does now
+ - Are there any manual processes
+2. Aim/business case
+ - what the issue is trying to achieve
+ - why are we bothering
+ - e.g. automate process X which all trusts spend n minutes doing a week or allow role A access to B to save going via person C
+ - not e.g. \"add field X to report Y\" but \"Add field X to report Y so that recruitment can show the head nurse that some time is waiting for managers to do something\"
+3. Outline requirements & scope
+ - e.g. \"Record the date X happens and the person who made it happen\"
+ - e.g. \"Send chasers in the morning, give users time to respond and don't chase more than two or three times\"
+4. Any permissions/roles that are relevant
+5. Any assumptions
+6. Are there other devs this is linked to, are they being considered with this, is this an alternative, is this a quickfix for now.
+7. Ballpark time estimate
+8. Any other resources e.g. SSL certs, sysadmin time, postcode files
+9. An executive summary, summarising relevant parts of the above"))
+
+(defun add-infosec-helper ()
+  (interactive)
+  (insert "h1. Info sec
+|| When | |
+||Who discovered |  |
+|| Systems affected | |
+|| Who has been informed | |
+|| Actions taken so far |  |"))
+
+(defun add-estimates-helper ()
+  (interactive)
+  (insert "|| Stage || Amount ||
+| Planning | |
+| Implementation | |
+| Review | |
+| Internal Testing | |
+|| Subtotal | |
+| Contingency | |
+|| Total || ||"))
+
+(defun jira-mode ()
+  (interactive)
+  (flyspell-mode)
+  (visual-line-mode)
+  (local-set-key (kbd "C-c C-j C-b") 'add-brief-helper)
+  (local-set-key (kbd "C-c C-j C-i") 'add-infosec-helper)
+  (local-set-key (kbd "C-c C-j C-e") 'add-estimates-helper)
+  )
+
+
+;;  Org mode
+(define-key global-map (kbd "C-c l") 'org-store-link)
+(define-key global-map (kbd "C-c a") 'org-agenda)
+
+(require 'org)
+(setq org-agenda-files (list "~/org/work.org"))
+(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook 'org-indent-mode)
+
+(defun feature-add-keyword (keyword)
+  (indent-new-comment-line)
+  (insert keyword)
+  (indent-according-to-mode)
+  )
+
+(defun feature-add-given ()
+  (interactive)
+  (feature-add-keyword "Given")
+  )
+
+
+(defun feature-add-when ()
+  (interactive)
+  (feature-add-keyword "When")
+  )
+
+(defun feature-add-and ()
+  (interactive)
+  (feature-add-keyword "And")
+  )
+
+(defun feature-add-but ()
+  (interactive)
+  (feature-add-keyword "But")
+  )
+
+(defun feature-add-then ()
+  (interactive)
+  (feature-add-keyword "Then")
+  )
+
+(defun feature-add-scenario ()
+  (interactive)
+  (indent-new-comment-line)
+  (feature-add-keyword "Scenario:")
+  )
+
+(defun feature-add-feature ()
+  (interactive)
+  (feature-add-keyword "Feature:")
+  )
+
+(defun feature-add-scenario-outline ()
+  (interactive)
+  (indent-new-comment-line)
+  (feature-add-keyword "Scenario Outline:")
+  )
+
+(defun feature-add-examples ()
+  (interactive)
+  (indent-new-comment-line)
+  (feature-add-keyword "Examples:")
+  (indent-new-comment-line)
+  (insert "||")
+  (backward-char)
+  )
+
+(add-hook 'feature-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c i g") 'feature-add-given)
+            (local-set-key (kbd "C-c i w") 'feature-add-when)
+            (local-set-key (kbd "C-c i a") 'feature-add-and)
+            (local-set-key (kbd "C-c i b") 'feature-add-but)
+            (local-set-key (kbd "C-c i t") 'feature-add-then)
+            (local-set-key (kbd "C-c i s") 'feature-add-scenario)
+            (local-set-key (kbd "C-c i f") 'feature-add-feature)
+            (local-set-key (kbd "C-c i o") 'feature-add-scenario-outline)
+            (local-set-key (kbd "C-c i e") 'feature-add-examples)
+            )
+          )
