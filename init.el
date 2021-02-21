@@ -80,7 +80,7 @@
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
 
-(global-set-key (kbd "C-TAB") 'iwb)
+(global-set-key [C-tab] 'iwb)
 
 (require 'company)
 ;; Web mode
